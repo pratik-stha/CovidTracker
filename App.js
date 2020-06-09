@@ -1,13 +1,43 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { Text, View, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import {Button} from 'react-native-elements';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
+import MainScreen from './Screens/main';
+import VisualScreen from './Screens/Visualization';
+ 
 export default function App() {
+
+  const Stack = createStackNavigator();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
+    
+    <NavigationContainer>
+    <Stack.Navigator>
+    <Stack.Screen name="Main" component={MainScreen} options={{          title: 'Home',
+        headerStyle: {
+          backgroundColor: '#f4511e',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          color: 'blue',
+          textAlign: 'center',
+          alignSelf: 'center'
+        },}} />
+  
+   
+    <Stack.Screen name="Visuals" component={VisualScreen} options={{ title:'Visuals',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
+  
+    </Stack.Navigator>
+  </NavigationContainer>
+  
+    );
+  
+  
+  
+};
+
+
 
 const styles = StyleSheet.create({
   container: {
