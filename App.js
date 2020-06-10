@@ -24,7 +24,7 @@ export default function App() {
           textAlign: 'center',
           alignSelf: 'center'
         },}} />
-  
+    
    
     <Stack.Screen name="Visuals" component={VisualScreen} options={{ title:'Visuals',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
   

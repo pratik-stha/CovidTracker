@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {View, StyleSheet,Text,TouchableOpacity,FlatList,listite} from 'react-native';
-import {Button,Card,SearchBar,ListItem} from 'react-native-elements';
+import {Button,Card,SearchBar,ListItem,Avatar} from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
 import {getData}  from '../API/Server';
 import axios from 'axios';
@@ -63,11 +63,30 @@ const dat = {
   };
 const VisualScreen=({route,navigation})=>{
 
-    const [search,setsearch] = useState(''); 
+    
     
     const [APIdata,setAPIdata] = useState({confirmed:'',deaths:'',recovered:'' });
-    const [state,setState] = useState({ loading: false, data: [], temp: [], error: null, search: null})
     
+    const [countries, setCountries] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState("");
+    const [query, setQuery] = useState('');
+    const [filteredCountryList, setFilteredCountryList] = useState(countryList);
+
+
+    useEffect(() => {
+      const lowerCaseQuery = query.toLowerCase();
+      const newCountries = countryList
+        .filter((country) => country.lowerCaseName.includes(lowerCaseQuery))
+        .map((country) => ({
+          ...country,
+          rank: country.lowerCaseName.indexOf(lowerCaseQuery),
+        }))
+        .sort((a, b) => a.rank - b.rank);
+    
+      setFilteredCountryList(newCountries);
+    }, [query]);
+
     useEffect(()=>{
         console.log('inside');
      
@@ -76,62 +95,45 @@ const VisualScreen=({route,navigation})=>{
               
                  });
 
-    getJson();
-
 
     },[route.params]);
    
-    const setResult = (json) => {
-          setState({
-          data: [...state.data, ...json],
-          temp: [...state.temp, ...json],
-          error: json.error || null,
-          loading: false
+    useEffect(() => {
+      setLoading(true);
+      axios
+        .get("https://restcountries.eu/rest/v2/all")
+        .then(res => {
+          setCountries(res.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.log(err);
         });
-      }
- 
-   const  updateSearch = search => {
-        setState({ search }, () => {
-            if ('' == search) {
-                setState({
-                    data: [...state.temp]
-                });
-                return;
-            }
-             
-            state.data = state.temp.filter(function(item){
-                return item.name.includes(search);
-              }).map(function({id, name, email}){
-                return {id, name, email};
-            });
-        });
-};
+    }, []);
+  
 
-const renderHeader = () => {
-    return <SearchBar placeholder="Search Here..."
-        lightTheme round editable={true}
-        value={state.search}
-        onChangeText={updateSearch} />; 
-}; 
+    if (loading) {
+      return <Text>Loading countries...</Text>;
+    }
+    
+    
+   
+
+    function RenderFlatlist({item}){
+      return(
+      <Text>{item.name}</Text>
+      );
+    };
 
 
-  const getJson = async()  => {
-        const url = `https://jsonplaceholder.typicode.com/users`;
-        setState({ Loading: true });
-          
-         try {
-            const response = await fetch(url);
-            const json = await response.json();
-            setResult(json);
-         } catch (e) {
-            setState({ error: 'Error Loading content', loading: false });
-         }
-      };
+    const countryList = Object.values(countries)
+          .map((country) => ({
+            ...country,
+            lowerCaseName: country.name.toLowerCase(),
+          }))
+          .sort((a, b) => a.name > b.name);
 
     return (
-        
-            
-       
         <View>
               <Card style={styles.Card1} title= 'Covid 19 Status'>
                   <Text style={{fontSize:20}}>Confirmed Cases: {APIdata.confirmed}</Text>
@@ -139,20 +141,17 @@ const renderHeader = () => {
                   <Text style={{fontSize:20}}>Recovered: {APIdata.recovered}</Text>
 
               </Card>
-
-              <FlatList
-            ListHeaderComponent={renderHeader}
-            data={state.data}
-            keyExtractor={item => item.email}
-            renderItem={({ item }) => (
-            <ListItem
-                roundAvatar
-                title={`${item.name}`}
-                subtitle={item.email}
-            />
-        )}
-      />
-                    
+              <SearchBar
+                  placeholder="Search your countries..."
+                  onChangeText={setQuery}
+                  value={query}
+                />
+                <FlatList
+                  keyExtractor={(item, index) => `${index}`}
+                  data={filteredCountryList}
+                  renderItem={RenderFlatlist}
+                />
+ 
         </View>
 
 

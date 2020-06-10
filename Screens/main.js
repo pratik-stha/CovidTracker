@@ -9,7 +9,7 @@ const MainScreen=({route,navigation})=>{
 
     return (
         <View style={styles.container}>
-           
+          
             <Card style={styles.view1} title='Precautions'>
 
             </Card>
