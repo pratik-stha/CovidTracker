@@ -14,6 +14,8 @@ const VisualScreen=({route,navigation})=>{
     
     const [APIdata,setAPIdata] = useState({confirmed:'',deaths:'',recovered:'' });
     
+        
+    const [APIcountries, setAPICountries] = useState([]);
     const [countries, setCountries] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
@@ -34,19 +36,17 @@ const VisualScreen=({route,navigation})=>{
     
       setFilteredCountryList(newCountries);
     }, [query]);
+    
 
     useEffect(()=>{
         console.log('inside');
-     
         getData(countryName,(data) => {
             setAPIdata({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value});
-              
       });
-
-
     },[query]);
    
     useEffect(() => {
+
       setLoading(true);
       axios
         .get("https://restcountries.eu/rest/v2/all")
@@ -59,6 +59,20 @@ const VisualScreen=({route,navigation})=>{
         });
     }, []);
   
+    useEffect(() => {
+
+      axios
+        .get("https://covid19.mathdro.id/api/countries/")
+        .then(res => {
+          setAPICountries(res);
+
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }, []);
+  
+
 
     if (loading) {
       return <Text>Loading countries...</Text>;
@@ -85,16 +99,26 @@ const VisualScreen=({route,navigation})=>{
     };
 
 
-    const countryList = Object.values(countries)
+     const countryList = Object.values(countries)
           .map((country) => ({
             ...country,
             lowerCaseName: country.name.toLowerCase(),
           }))
-          .sort((a, b) => a.name > b.name);
-
+          .sort((a, b) => a.name > b.name); 
+        
+        
+          function Item({ title }) {
+            console.log(title);
+            return (
+              <View>
+                <Text>{title}</Text>
+              </View>
+            );
+          }
     return (
         <View>
           <SearchBar
+                  
                   placeholder="Search your countries..."
                   onChangeText={setQuery}
                   value={query}
@@ -108,6 +132,15 @@ const VisualScreen=({route,navigation})=>{
                   <Text style={{fontSize:20}}>Confirmed Cases: {APIdata.confirmed}</Text>
                   <Text style={{fontSize:20}}>Total Deaths: {APIdata.deaths}</Text>
                   <Text style={{fontSize:20}}>Recovered: {APIdata.recovered}</Text>
+
+              </Card>
+              <Card>
+                  <FlatList 
+                      keyExtractor={(item,index) => item.name}
+                      data={APIdata}
+                       renderItem={({ item }) => <Item title={item} />}
+                  />
+
 
               </Card>
               

@@ -30,4 +30,10 @@ Serv.interceptors.request.use(
     callback(response.data);
   };
   
+  export const getWorldData = async (callback) => {
+    const response = await Serv.get()
+    //console.log(response);
+    callback(response.data);
+  };
+  
  

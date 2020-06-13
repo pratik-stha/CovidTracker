@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from 'react';
-import {View, StyleSheet,Text,TouchableOpacity} from 'react-native';
+import {View, StyleSheet,Text,TouchableOpacity, Platform, Linking} from 'react-native';
 import {Button,Card} from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
-import {getData}  from '../API/Server';
+import {getWorldData}  from '../API/Server';
 import axios from 'axios';
 
 const MainScreen=({route,navigation})=>{
@@ -14,7 +14,7 @@ const MainScreen=({route,navigation})=>{
     useEffect(()=>{
         console.log('inside');
      
-        getData((data) => {
+        getWorldData((data) => {
             setAPIWorldData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value});
               
                  });
@@ -22,12 +22,25 @@ const MainScreen=({route,navigation})=>{
 
     },[route.params]);
 
+    MakeCall=()=>{
+            let phonenumber = '';
+            if(Platform.OS === 'android'){
+                phonenumber = `tel:${6165709312}`;
+            }
+            else{
+                phonenumber = `telprompt:${6165709312}`
+            }
+
+            Linking.openURL(phonenumber);
+
+    };
 
     return (
         <View style={styles.container}>
           
             <Card style={styles.view1} title='Precautions'>
-
+            <Button title='Call' 
+                    onPress={()=>{MakeCall()}}/>
             </Card>
 
             <View style={styles.StatisticsButton}> 
