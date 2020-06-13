@@ -2,10 +2,26 @@ import React,{useState,useEffect} from 'react';
 import {View, StyleSheet,Text,TouchableOpacity} from 'react-native';
 import {Button,Card} from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
+import {getData}  from '../API/Server';
+import axios from 'axios';
 
 const MainScreen=({route,navigation})=>{
- 
-   
+    
+    const [APIWorldData,setAPIWorldData] = useState({confirmed:'',deaths:'',recovered:'' });
+    const [WorldCountries, setWorldCountries] = useState([]);
+    const [WorldLoading, setWorldLoading] = useState(false);
+
+    useEffect(()=>{
+        console.log('inside');
+     
+        getData((data) => {
+            setAPIWorldData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value});
+              
+                 });
+
+
+    },[route.params]);
+
 
     return (
         <View style={styles.container}>
@@ -20,7 +36,10 @@ const MainScreen=({route,navigation})=>{
           onPress={()=>navigation.navigate('Visuals')}
         />
             </View>
-            <Card style={styles.view2} title='statistics'>
+            <Card style={styles.view2} title='World Statistics'>
+            <Text style={{fontSize:20}}>Confirmed Cases: {APIWorldData.confirmed}</Text>
+                  <Text style={{fontSize:20}}>Total Deaths: {APIWorldData.deaths}</Text>
+                  <Text style={{fontSize:20}}>Recovered: {APIWorldData.recovered}</Text>
 
             </Card>
            
@@ -30,9 +49,12 @@ const MainScreen=({route,navigation})=>{
     );
 }
 
+
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'pink',
+        flex:1,
         
       },
 

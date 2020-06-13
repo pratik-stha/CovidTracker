@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 const Serv = axios.create({
-    baseURL: 'https://covid19.mathdro.id/api/countries/USA',
+    baseURL: 'https://covid19.mathdro.id/api',
 
 });
 
@@ -24,8 +24,8 @@ Serv.interceptors.request.use(
     }
   );
   
-  export const getData = async (callback) => {
-    const response = await Serv.get()
+  export const getData = async (country,callback) => {
+    const response = await Serv.get(`/countries/${country}`)
     //console.log(response);
     callback(response.data);
   };

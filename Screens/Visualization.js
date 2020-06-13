@@ -5,65 +5,12 @@ import { Feather } from '@expo/vector-icons';
 import {getData}  from '../API/Server';
 import axios from 'axios';
 import RNPicker from 'rn-modal-picker';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 
-const dat = {
-    dataSource: [
-      {
-        id: 1,
-        name: "Afghanistan"
-      },
-      {
-        id: 2,
-        name: "Bahrain"
-      },
-      {
-        id: 3,
-        name: "Canada"
-      },
-      {
-        id: 4,
-        name: "Denmark"
-      },
-      {
-        id: 5,
-        name: "Egypt"
-      },
-      {
-        id: 6,
-        name: "France"
-      },
-      {
-        id: 7,
-        name: "Greece"
-      },
-      {
-        id: 8,
-        name: "Hong Kong"
-      },
-      {
-        id: 9,
-        name: "India"
-      },
-      {
-        id: 10,
-        name: "Japan"
-      },
-      {
-        id: 11,
-        name: "Kenya"
-      },
-      {
-        id: 12,
-        name: "Liberia"
-      }
-    ],
-    placeHolderText: "Please Select Country",
-    selectedText: ""
-  };
 const VisualScreen=({route,navigation})=>{
 
-    
+    //var nam = 'Nepal';
     
     const [APIdata,setAPIdata] = useState({confirmed:'',deaths:'',recovered:'' });
     
@@ -72,6 +19,7 @@ const VisualScreen=({route,navigation})=>{
     const [search, setSearch] = useState("");
     const [query, setQuery] = useState('');
     const [filteredCountryList, setFilteredCountryList] = useState(countryList);
+    const [countryName, setCountryName] = useState('Nepal');
 
 
     useEffect(() => {
@@ -90,13 +38,13 @@ const VisualScreen=({route,navigation})=>{
     useEffect(()=>{
         console.log('inside');
      
-        getData((data) => {
+        getData(countryName,(data) => {
             setAPIdata({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value});
               
-                 });
+      });
 
 
-    },[route.params]);
+    },[query]);
    
     useEffect(() => {
       setLoading(true);
@@ -121,7 +69,18 @@ const VisualScreen=({route,navigation})=>{
 
     function RenderFlatlist({item}){
       return(
-      <Text>{item.name}</Text>
+        <TouchableHighlight 
+          onPress={()=>{setCountryName(item.name);
+            setQuery(item.name);
+            navigation.navigate('Visuals');
+          }
+          
+          }>   
+         <View style={{height: 50}}>
+      <Text >{item.name}</Text>
+        </View>
+        </TouchableHighlight>
+
       );
     };
 
@@ -135,13 +94,7 @@ const VisualScreen=({route,navigation})=>{
 
     return (
         <View>
-              <Card style={styles.Card1} title= 'Covid 19 Status'>
-                  <Text style={{fontSize:20}}>Confirmed Cases: {APIdata.confirmed}</Text>
-                  <Text style={{fontSize:20}}>Total Deaths: {APIdata.deaths}</Text>
-                  <Text style={{fontSize:20}}>Recovered: {APIdata.recovered}</Text>
-
-              </Card>
-              <SearchBar
+          <SearchBar
                   placeholder="Search your countries..."
                   onChangeText={setQuery}
                   value={query}
@@ -151,6 +104,13 @@ const VisualScreen=({route,navigation})=>{
                   data={filteredCountryList}
                   renderItem={RenderFlatlist}
                 />
+              <Card style={styles.Card1} title={countryName}>
+                  <Text style={{fontSize:20}}>Confirmed Cases: {APIdata.confirmed}</Text>
+                  <Text style={{fontSize:20}}>Total Deaths: {APIdata.deaths}</Text>
+                  <Text style={{fontSize:20}}>Recovered: {APIdata.recovered}</Text>
+
+              </Card>
+              
  
         </View>
 
