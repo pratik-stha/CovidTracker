@@ -35,5 +35,12 @@ Serv.interceptors.request.use(
     //console.log(response);
     callback(response.data);
   };
+
+  export const getCountries = async (callback) => {
+    const response = await Serv.get(`/countries`)
+    //console.log(response);
+    callback(response.data);
+  };
+  
   
  

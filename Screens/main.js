@@ -48,6 +48,10 @@ const MainScreen=({route,navigation})=>{
           title="STATISTICS"
           onPress={()=>navigation.navigate('Visuals')}
         />
+          <Button
+          title="TRY"
+          onPress={()=>navigation.navigate('Try')}
+        />
             </View>
             <Card style={styles.view2} title='World Statistics'>
             <Text style={{fontSize:20}}>Confirmed Cases: {APIWorldData.confirmed}</Text>

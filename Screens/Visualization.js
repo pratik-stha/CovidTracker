@@ -2,10 +2,12 @@ import React,{useState,useEffect} from 'react';
 import {View, StyleSheet,Text,TouchableOpacity,FlatList,listite} from 'react-native';
 import {Button,Card,SearchBar,ListItem,Avatar} from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
-import {getData}  from '../API/Server';
+import {getData, getCountries}  from '../API/Server';
 import axios from 'axios';
 import RNPicker from 'rn-modal-picker';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 
 const VisualScreen=({route,navigation})=>{
@@ -23,6 +25,7 @@ const VisualScreen=({route,navigation})=>{
     const [filteredCountryList, setFilteredCountryList] = useState(countryList);
     const [countryName, setCountryName] = useState('Nepal');
 
+    const Tab = createMaterialTopTabNavigator();
 
     useEffect(() => {
       const lowerCaseQuery = query.toLowerCase();
@@ -60,18 +63,55 @@ const VisualScreen=({route,navigation})=>{
     }, []);
   
     useEffect(() => {
-
-      axios
-        .get("https://covid19.mathdro.id/api/countries/")
-        .then(res => {
-          setAPICountries(res);
-
-        })
-        .catch(err => {
-          console.log(err);
+      getData((data) => {
+        setAPIdata(data);
+        console.log(APIcountries);
         });
     }, []);
   
+
+      
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
+      <Button
+        title="Go to profile"
+        onPress={() => navigation.jumpTo('Profile', { owner: 'Michaś' })}
+      />
+       <SearchBar
+                  
+                  placeholder="Search your countries..."
+                  onChangeText={setQuery}
+                  value={query}
+                />
+                <FlatList
+                  keyExtractor={(item, index) => `${index}`}
+                  data={filteredCountryList}
+                  renderItem={RenderFlatlist}
+                />
+              <Card style={styles.Card1} title={countryName}>
+                  <Text style={{fontSize:20}}>Confirmed Cases: {APIdata.confirmed}</Text>
+                  <Text style={{fontSize:20}}>Total Deaths: {APIdata.deaths}</Text>
+                  <Text style={{fontSize:20}}>Recovered: {APIdata.recovered}</Text>
+
+              </Card>
+             
+              
+    </View>
+  );
+}
+
+function ProfileScreen({ route }) {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Profile!</Text>
+      <Text>
+        {route?.params?.owner ? `${route.params.owner}'s Profile` : ''}
+      </Text>
+    </View>
+  );
+}
 
 
     if (loading) {
@@ -117,33 +157,13 @@ const VisualScreen=({route,navigation})=>{
           }
     return (
         <View>
-          <SearchBar
-                  
-                  placeholder="Search your countries..."
-                  onChangeText={setQuery}
-                  value={query}
-                />
-                <FlatList
-                  keyExtractor={(item, index) => `${index}`}
-                  data={filteredCountryList}
-                  renderItem={RenderFlatlist}
-                />
-              <Card style={styles.Card1} title={countryName}>
-                  <Text style={{fontSize:20}}>Confirmed Cases: {APIdata.confirmed}</Text>
-                  <Text style={{fontSize:20}}>Total Deaths: {APIdata.deaths}</Text>
-                  <Text style={{fontSize:20}}>Recovered: {APIdata.recovered}</Text>
+      
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+      </Tab.Navigator>
 
-              </Card>
-              <Card>
-                  <FlatList 
-                      keyExtractor={(item,index) => item.name}
-                      data={APIdata}
-                       renderItem={({ item }) => <Item title={item} />}
-                  />
-
-
-              </Card>
-              
+         
  
         </View>
 

@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
 import MainScreen from './Screens/main';
 import VisualScreen from './Screens/Visualization';
+import TryPage from './Screens/trypage';
  
 export default function App() {
 
@@ -27,6 +28,8 @@ export default function App() {
     
    
     <Stack.Screen name="Visuals" component={VisualScreen} options={{ title:'Visuals',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
+      
+    <Stack.Screen name="Try" component={TryPage} options={{ title:'TryPage',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
   
     </Stack.Navigator>
   </NavigationContainer>
