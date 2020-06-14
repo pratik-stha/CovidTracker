@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from 'react';
-import { Text, View, FlatList} from 'react-native';
+import { Text, View, FlatList, TextInput} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Card, SearchBar } from 'react-native-elements';
+import { Card, SearchBar,Input } from 'react-native-elements';
 import {getStateData, getStateName} from '../API/CountyLevel';
 import {USstateList} from '../StateNameList';
 
@@ -14,8 +14,9 @@ const TryPage=()=> {
     const [stateName, setstateName] = useState('mi');
 
    const stateList = [];
-
-   const [searchState,setsearchState] = useState({isloading:true, search:'', dataSource:USstateList});
+   const [searchVal,setsearchVal] = useState('');
+ 
+   const [searchState,setsearchState] = useState({isloading:true, searchList:'', inMemory:''});
 
     useEffect(()=>{
         getStateData(stateName,(data) => {
@@ -29,6 +30,7 @@ const TryPage=()=> {
      
         });
 
+
     },[]);
    
     
@@ -40,43 +42,62 @@ function HomeScreen() {
       </View>
     );
   }
+
+ const renderFlatList = ({ item }) => (
+    <View style={{ minHeight: 70, padding: 5 }}>
+      <Text style={{fontWeight: 'bold', fontSize: 26 }}>
+        {item.name}
+      </Text>
+     
+    </View>
+  );
+
   
- function SearchFilterFunction(text) {
-    //passing the inserted text in textinput
-    const newData = USstateList.filter(function(item) {
-      //applying filter for the inserted text in search bar
-      const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
+  const searchContacts = value => {
+    const filteredContacts = USstateList.filter(contact => {
+      let contactLowercase = (contact.name).toLowerCase();
+
+      let searchTermLowercase = value.toLowerCase();
+
+      return contactLowercase.indexOf(searchTermLowercase) > -1;
     });
-    setsearchState({
-      //setting the filtered newData on datasource
-      //After setting the data it will automatically re-render the view
-      dataSource: newData,
-      search:text,
-    });
-  }
+    setsearchState({ searchList: filteredContacts });
+  };
+
 
   function SettingsScreen() {
+
     return (
       <View>
         <Text>Settings!</Text>
         <View>
         <SearchBar
-          round
-          searchIcon={{ size: 24 }}
-          onChangeText={(val) => setsearchState({search:`${val}`})}
-          onClear={text => SearchFilterFunction('')}
-          placeholder="Type Here..."
-          value={searchState.search}
-          />
-           <FlatList
-        data={USstateList}
-        renderItem={({ item }) => <Text>{item.name} </Text>}
-        keyExtractor={(item,index) => item.abbreviation}
-      />
-      </View>
+            placeholder = 'search state'
+            onChangeText={(val)=>{searchContacts(val);setsearchVal(val);}}
+            value={searchVal}
         
+        />
+        
+        <FlatList
+        data={searchState.searchList}
+        renderItem = {renderFlatList}
+        keyExtractor={(item,index) => index.toString()}
+        ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 50
+              }}
+            >
+              <Text style={{ color: '#bad555' }}>No Match Found</Text>
+            </View>
+          )}
+      />
+
+      </View>
+        <View>
         <Card title='State'>
            
         <Text style={{fontSize:20}}>Confirmed Cases: {StateAPIdata.confirmed}</Text>
@@ -84,6 +105,7 @@ function HomeScreen() {
         <Text style={{fontSize:20}}>Recovered: {StateAPIdata.recovered}</Text>
        
         </Card>
+        </View>
       </View>
     );
   }
