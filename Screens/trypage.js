@@ -5,6 +5,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Card, SearchBar,Input } from 'react-native-elements';
 import {getStateData, getStateName} from '../API/CountyLevel';
 import {USstateList} from '../StateNameList';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -16,24 +17,34 @@ const TryPage=()=> {
    const stateList = [];
    const [searchVal,setsearchVal] = useState('');
  
-   const [searchState,setsearchState] = useState({isloading:true, searchList:'', inMemory:''});
+   const [searchState,setsearchState] = useState({isloading:true, searchList:''});
 
-    useEffect(()=>{
-        getStateData(stateName,(data) => {
-            setStateAPIdata({confirmed: data.positive, death: data.death, recovered: data.recovered});
-           // console.log(data.death);
-           for (var i=0;i<USstateList.length;i++){
-              stateList[i]=USstateList[i].name;
-              stateListAbb[i]=USstateList[i].abbreviation;
-            
-           }
-     
-        });
-
-
-    },[]);
    
-    
+   
+
+useEffect(()=>{
+    searchContacts(searchVal);
+    console.log(searchVal);
+},[searchVal]);
+
+
+useEffect(()=>{
+    if(check_validation(searchVal)){
+       
+        getStateData(stateName,(data) => {
+     setStateAPIdata({confirmed: data.positive, death: data.death, recovered: data.recovered});
+  
+
+        });}
+
+ else{
+     console.log('searchval: ',searchVal);
+     setStateAPIdata({confirmed: 'INVALID', death: 'INVALID', recovered: 'INVALID'});
+
+ }
+},[searchVal]);
+
+
 function HomeScreen() {
     return (
       <View >
@@ -43,16 +54,7 @@ function HomeScreen() {
     );
   }
 
- const renderFlatList = ({ item }) => (
-    <View style={{ minHeight: 70, padding: 5 }}>
-      <Text style={{fontWeight: 'bold', fontSize: 26 }}>
-        {item.name}
-      </Text>
-     
-    </View>
-  );
-
-  
+ 
   const searchContacts = value => {
     const filteredContacts = USstateList.filter(contact => {
       let contactLowercase = (contact.name).toLowerCase();
@@ -65,15 +67,47 @@ function HomeScreen() {
   };
 
 
+  const renderFlatList = ({ item }) => (
+    <View style={{ minHeight: 70, padding: 5 }}>
+        <TouchableHighlight onPress={()=>{setsearchVal(item.name);
+                                        setstateName(item.abbreviation.toLowerCase());
+                                        setsearchState({searchList:''})
+                            }}> 
+        <Text style={{fontWeight: 'bold', fontSize: 16 }}> {item.name} </Text>
+      </TouchableHighlight>
+
+     
+    </View>
+  );
+
+  
+ function check_validation(val){
+    var flag = false;
+    for(let i=0;i<USstateList.length;i++){
+            if(USstateList[i].name === val)
+             {
+                 console.log(USstateList[i]);
+                 flag = true;
+                 break;
+          
+             }
+             else{
+                 flag = false;
+             }
+ }
+  return flag;
+ };
+
+
+ //   console.log("The statename is: ",stateName);
   function SettingsScreen() {
 
     return (
       <View>
-        <Text>Settings!</Text>
-        <View>
+   
         <SearchBar
-            placeholder = 'search state'
-            onChangeText={(val)=>{searchContacts(val);setsearchVal(val);}}
+            placeholder = 'Search by State Name'
+            onChangeText={(val)=>{setsearchVal(val)   }}
             value={searchVal}
         
         />
@@ -82,23 +116,12 @@ function HomeScreen() {
         data={searchState.searchList}
         renderItem = {renderFlatList}
         keyExtractor={(item,index) => index.toString()}
-        ListEmptyComponent={() => (
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 50
-              }}
-            >
-              <Text style={{ color: '#bad555' }}>No Match Found</Text>
-            </View>
-          )}
+        
       />
 
-      </View>
+      
         <View>
-        <Card title='State'>
+        <Card title={<Text style={{color:'blue'}}>{searchVal}</Text>}>
            
         <Text style={{fontSize:20}}>Confirmed Cases: {StateAPIdata.confirmed}</Text>
         <Text style={{fontSize:20}}>Death: {StateAPIdata.death}</Text>
