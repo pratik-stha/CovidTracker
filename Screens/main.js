@@ -44,13 +44,10 @@ const MainScreen=({route,navigation})=>{
             </Card>
 
             <View style={styles.StatisticsButton}> 
-            <Button
-          title="STATISTICS"
-          onPress={()=>navigation.navigate('Visuals')}
-        />
+           
           <Button
-          title="TRY"
-          onPress={()=>navigation.navigate('Try')}
+          title="Statistics"
+          onPress={()=>navigation.navigate('Visuals')}
         />
             </View>
             <Card style={styles.view2} title='World Statistics'>

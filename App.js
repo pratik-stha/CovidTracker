@@ -12,7 +12,7 @@ export default function App() {
   const Stack = createStackNavigator();
 
   return (
-    
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <NavigationContainer>
     <Stack.Navigator>
     <Stack.Screen name="Main" component={MainScreen} options={{          title: 'Home',
@@ -25,14 +25,12 @@ export default function App() {
           textAlign: 'center',
           alignSelf: 'center'
         },}} />
-    
-   
-    <Stack.Screen name="Visuals" component={VisualScreen} options={{ title:'Visuals',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
       
-    <Stack.Screen name="Try" component={TryPage} options={{ title:'TryPage',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
+    <Stack.Screen name="Visuals" component={TryPage} options={{ title:'Statistics',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
   
     </Stack.Navigator>
   </NavigationContainer>
+  </TouchableWithoutFeedback>
   
     );
   

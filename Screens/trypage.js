@@ -6,32 +6,39 @@ import { Card, SearchBar,Input } from 'react-native-elements';
 import {getStateData, getStateName} from '../API/CountyLevel';
 import {USstateList} from '../StateNameList';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import {getData,getCountries} from '../API/Server';
+import {countryNameList} from '../countryNameList';
+import DropDownPicker from 'react-native-dropdown-picker';
+
 
 const Tab = createMaterialTopTabNavigator();
 
 const TryPage=()=> {
    const [StateAPIdata,setStateAPIdata] = useState({confirmed:'',deaths:'',recovered:'' });
+   const [StateAPICountryData,setStateAPICountryData] = useState({confirmed:'',deaths:'',recovered:'' });
     
     const [stateName, setstateName] = useState('mi');
 
-   const stateList = [];
+   const [countryName,setcountryName] = useState('USA');
    const [searchVal,setsearchVal] = useState('');
  
    const [searchState,setsearchState] = useState({isloading:true, searchList:''});
+   const [countryList,setcountryList] = useState({label:''});
+   const [selectedCountry,setSelectedCountry] = useState();
 
-   
-   
-
-useEffect(()=>{
-    searchContacts(searchVal);
-    console.log(searchVal);
-},[searchVal]);
-
+   useEffect(()=>{
+        getData(selectedCountry,(data)=>
+        setStateAPICountryData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value})
+        
+        )
+       
+   },[selectedCountry]);
 
 useEffect(()=>{
     if(check_validation(searchVal)){
        
         getStateData(stateName,(data) => {
+
      setStateAPIdata({confirmed: data.positive, death: data.death, recovered: data.recovered});
   
 
@@ -45,12 +52,26 @@ useEffect(()=>{
 },[searchVal]);
 
 
+
+
 function HomeScreen() {
     return (
       <View >
-        <Text>Home!</Text>
-        <Card title='Countries' ></Card>
-      </View>
+             <Card title= {<Text>{selectedCountry} </Text>}>
+            <Text style={{fontSize:20}}>Confirmed Cases: {StateAPICountryData.confirmed}</Text>
+                  <Text style={{fontSize:20}}>Total Deaths: {StateAPICountryData.deaths}</Text>
+                  <Text style={{fontSize:20}}>Recovered: {StateAPICountryData.recovered}</Text>
+
+            </Card>
+         <DropDownPicker
+                     items={countryNameList}
+                    defaultNull
+                    placeholder="Select your country"
+                    containerStyle={{height: 50}}
+                    onChangeItem={item =>{setSelectedCountry(item.label)}}
+               />
+          </View>
+    
     );
   }
 
@@ -107,7 +128,7 @@ function HomeScreen() {
    
         <SearchBar
             placeholder = 'Search by State Name'
-            onChangeText={(val)=>{setsearchVal(val)   }}
+            onChangeText={(val)=>{setsearchVal(val);searchContacts(val);   }}
             value={searchVal}
         
         />
