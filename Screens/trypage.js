@@ -46,8 +46,12 @@ const TryPage=({route,navigation})=> {
        
         getData(selectedCountry,(data)=>
         setStateAPICountryData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value}));
-      
+        
    },[selectedCountry]);
+
+   useEffect(()=>{
+       storeSearchItem({StateAPICountryData})
+},[StateAPICountryData]);
 
  
 useEffect(()=>{
@@ -104,12 +108,12 @@ function HomeScreen() {
                         value = {Switch1Val}/>
             </Card>
          <DropDownPicker
-                     items={countryNameList}
+                    items={countryNameList}
                     defaultNull
                     placeholder="Select your country"
                     containerStyle={{height: 50}}
                     onChangeItem={item =>{setSelectedCountry(item.label);
-                                         storeSearchItem({item});
+                                       
                    }}
                />
                </View>
