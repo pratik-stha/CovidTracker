@@ -50,7 +50,11 @@ const TryPage=({route,navigation})=> {
    },[selectedCountry]);
 
    useEffect(()=>{
+        if(StateAPICountryData.confirmed !=='' && StateAPICountryData !=='' && StateAPICountryData !== '')     {            
+      Object.assign(StateAPICountryData);
+
        storeSearchItem({StateAPICountryData})
+        }
 },[StateAPICountryData]);
 
  
