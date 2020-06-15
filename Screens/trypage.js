@@ -33,15 +33,6 @@ const TryPage=({route,navigation})=> {
    const [PassData,setPassData] = useState({data:'',title:''});
 
    useEffect(()=>{
-        getData(selectedCountry,(data)=>
-        setStateAPICountryData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value})
-        
-        );
-        
-       
-   },[selectedCountry]);
-
-   useEffect(()=>{
     try{
         initSearchHistoryDB();
     }catch(err){
@@ -50,6 +41,15 @@ const TryPage=({route,navigation})=> {
 
 },[]);
 
+ 
+   useEffect(()=>{
+       
+        getData(selectedCountry,(data)=>
+        setStateAPICountryData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value}));
+      
+   },[selectedCountry]);
+
+ 
 useEffect(()=>{
     if(check_validation(searchVal)){
        
@@ -109,6 +109,7 @@ function HomeScreen() {
                     placeholder="Select your country"
                     containerStyle={{height: 50}}
                     onChangeItem={item =>{setSelectedCountry(item.label);
+                                         storeSearchItem({item});
                    }}
                />
                </View>
