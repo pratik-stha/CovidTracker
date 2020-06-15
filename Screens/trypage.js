@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Text, View, FlatList, TextInput,Switch,TouchableOpacity} from 'react-native';
+import { Text, View, FlatList, TextInput,Switch,TouchableOpacity, Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Card, SearchBar,Input } from 'react-native-elements';
@@ -8,6 +8,7 @@ import {USstateList} from '../StateNameList';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import {getData,getCountries} from '../API/Server';
 import {countryNameList} from '../countryNameList';
+import {initSearchHistoryDB,storeSearchItem,setupDataListener } from '../Helper/fb-helper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -35,9 +36,19 @@ const TryPage=({route,navigation})=> {
         getData(selectedCountry,(data)=>
         setStateAPICountryData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value})
         
-        )
+        );
+        storeSearchItem({selectedCountry});
        
    },[selectedCountry]);
+
+   useEffect(()=>{
+    try{
+        initSearchHistoryDB();
+    }catch(err){
+        console.log(err);
+    }
+
+},[]);
 
 useEffect(()=>{
     if(check_validation(searchVal)){
@@ -97,9 +108,10 @@ function HomeScreen() {
                     defaultNull
                     placeholder="Select your country"
                     containerStyle={{height: 50}}
-                    onChangeItem={item =>{setSelectedCountry(item.label)}}
+                    onChangeItem={item =>{setSelectedCountry(item.label);
+                   }}
                />
-          </View>
+               </View>
     
     );
   }

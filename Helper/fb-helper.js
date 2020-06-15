@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/database';
-import {firebaseConfig} from './fb-config';
+import {firebaseConfig} from '../Helper/fb-config';
 
 export function initSearchHistoryDB(){
 
@@ -8,7 +8,7 @@ export function initSearchHistoryDB(){
 }
 
 export function storeSearchItem(item){
-    firebase.database().ref('HistoryData/').push(item);
+    firebase.database().ref('SearchData/').push(item);
 }
 
 export function setupDataListener(key){
