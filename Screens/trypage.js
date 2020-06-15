@@ -17,7 +17,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const TryPage=({route,navigation})=> {
    const [StateAPIdata,setStateAPIdata] = useState({confirmed:'',deaths:'',recovered:'' });
-   const [StateAPICountryData,setStateAPICountryData] = useState({confirmed:'',deaths:'',recovered:'' });
+   const [StateAPICountryData,setStateAPICountryData] = useState({confirmed:'',deaths:'',recovered:'',name:'' });
    
    const [Switch1Val,setSwitch1Val] = useState(false);
     const [Switch2Val,setSwitch2Val] = useState(false);
@@ -45,7 +45,7 @@ const TryPage=({route,navigation})=> {
    useEffect(()=>{
        
         getData(selectedCountry,(data)=>
-        setStateAPICountryData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value}));
+        setStateAPICountryData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value, name:selectedCountry}));
         
    },[selectedCountry]);
 
