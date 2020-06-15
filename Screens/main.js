@@ -6,8 +6,11 @@ import {getWorldData}  from '../API/Server';
 import axios from 'axios';
 
 const MainScreen=({route,navigation})=>{
-    
+    //console.log(route.params);
+
+
     const [APIWorldData,setAPIWorldData] = useState({confirmed:'',deaths:'',recovered:'' });
+    const [HomeData,setHomeData] = useState({confirmed:'',deaths:'',recovered:'', title:'' });
     const [WorldCountries, setWorldCountries] = useState([]);
     const [WorldLoading, setWorldLoading] = useState(false);
 
@@ -20,7 +23,25 @@ const MainScreen=({route,navigation})=>{
                  });
 
 
-    },[route.params]);
+    },[]);
+
+   useEffect(()=>{
+          if(route.params?.Switch1Val)
+            {
+                console.log(route.params.StateAPICountryData.confirmed); 
+                console.log(route.params.selectedCountry); 
+                setHomeData({confirmed: route.params.StateAPICountryData.confirmed, deaths: route.params.StateAPICountryData.deaths, recovered: route.params.StateAPICountryData.recovered,title: route.params.selectedCountry})
+          }
+
+          if(route.params?.Switch2Val)
+            {
+                console.log(route.params.StateAPIdata); 
+                console.log(route.params.searchVal); 
+                setHomeData({confirmed: route.params.StateAPIdata.confirmed, deaths: route.params.StateAPIdata.death, recovered: route.params.StateAPIdata.recovered, title: route.params.searchVal})
+          }
+          
+   },[route.params]);
+
 
     MakeCall=()=>{
             let phonenumber = '';
@@ -54,9 +75,13 @@ const MainScreen=({route,navigation})=>{
             <Text style={{fontSize:20}}>Confirmed Cases: {APIWorldData.confirmed}</Text>
                   <Text style={{fontSize:20}}>Total Deaths: {APIWorldData.deaths}</Text>
                   <Text style={{fontSize:20}}>Recovered: {APIWorldData.recovered}</Text>
-
             </Card>
-           
+                <Card  title={<Text style={{fontSize:25, alignSelf:'center'}}>{HomeData.title}</Text>}>
+                  <Text style={{fontSize:20}}>Confirmed Cases: {HomeData.confirmed}</Text>
+                  <Text style={{fontSize:20}}>Total Deaths: {HomeData.deaths}</Text>
+                  <Text style={{fontSize:20}}>Recovered: {HomeData.recovered}</Text>
+            </Card>
+        
             </View>
 
 

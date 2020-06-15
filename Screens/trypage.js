@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Text, View, FlatList, TextInput} from 'react-native';
+import { Text, View, FlatList, TextInput,Switch,TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Card, SearchBar,Input } from 'react-native-elements';
@@ -9,14 +9,18 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import {getData,getCountries} from '../API/Server';
 import {countryNameList} from '../countryNameList';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { AntDesign } from '@expo/vector-icons';
 
 
 const Tab = createMaterialTopTabNavigator();
 
-const TryPage=()=> {
+const TryPage=({route,navigation})=> {
    const [StateAPIdata,setStateAPIdata] = useState({confirmed:'',deaths:'',recovered:'' });
    const [StateAPICountryData,setStateAPICountryData] = useState({confirmed:'',deaths:'',recovered:'' });
-    
+   
+   const [Switch1Val,setSwitch1Val] = useState(false);
+    const [Switch2Val,setSwitch2Val] = useState(false);
+   
     const [stateName, setstateName] = useState('mi');
 
    const [countryName,setcountryName] = useState('USA');
@@ -25,6 +29,7 @@ const TryPage=()=> {
    const [searchState,setsearchState] = useState({isloading:true, searchList:''});
    const [countryList,setcountryList] = useState({label:''});
    const [selectedCountry,setSelectedCountry] = useState();
+   const [PassData,setPassData] = useState({data:'',title:''});
 
    useEffect(()=>{
         getData(selectedCountry,(data)=>
@@ -51,7 +56,28 @@ useEffect(()=>{
  }
 },[searchVal]);
 
+useEffect(()=>{
+   if(Switch1Val){
+       setSwitch2Val(false);
+   }
+   if(Switch2Val){
+       setSwitch1Val(false);
+   }
 
+   
+},[Switch1Val]);
+
+navigation.setOptions(
+    {
+        
+        headerLeft:()=>(
+            <TouchableOpacity onPress={()=>navigation.navigate('Main',{StateAPICountryData,selectedCountry,Switch1Val,StateAPIdata,searchVal ,Switch2Val})}>
+            <AntDesign name="back" size={34} color="black" />
+           </TouchableOpacity>
+        ),
+
+    }
+);
 
 
 function HomeScreen() {
@@ -61,7 +87,10 @@ function HomeScreen() {
             <Text style={{fontSize:20}}>Confirmed Cases: {StateAPICountryData.confirmed}</Text>
                   <Text style={{fontSize:20}}>Total Deaths: {StateAPICountryData.deaths}</Text>
                   <Text style={{fontSize:20}}>Recovered: {StateAPICountryData.recovered}</Text>
-
+                 
+                  <Switch
+                        onValueChange = {(val)=>setSwitch1Val(val)}
+                        value = {Switch1Val}/>
             </Card>
          <DropDownPicker
                      items={countryNameList}
@@ -147,6 +176,10 @@ function HomeScreen() {
         <Text style={{fontSize:20}}>Confirmed Cases: {StateAPIdata.confirmed}</Text>
         <Text style={{fontSize:20}}>Death: {StateAPIdata.death}</Text>
         <Text style={{fontSize:20}}>Recovered: {StateAPIdata.recovered}</Text>
+        
+        <Switch
+            onValueChange = {(val)=>setSwitch2Val(val)}
+            value = {Switch2Val}/>
        
         </Card>
         </View>
