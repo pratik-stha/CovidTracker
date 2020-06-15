@@ -37,7 +37,7 @@ const TryPage=({route,navigation})=> {
         setStateAPICountryData({confirmed: data.confirmed.value, deaths: data.deaths.value, recovered: data.recovered.value})
         
         );
-        storeSearchItem({selectedCountry});
+        
        
    },[selectedCountry]);
 
