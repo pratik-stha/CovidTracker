@@ -6,6 +6,7 @@ import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
 import MainScreen from './Screens/main';
 import VisualScreen from './Screens/Visualization';
 import TryPage from './Screens/trypage';
+import HistoryScreen from './Screens/SearchHistory';
  
 export default function App() {
 
@@ -27,6 +28,7 @@ export default function App() {
         },}} />
       
     <Stack.Screen name="Visuals" component={TryPage} options={{ title:'Statistics',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
+    <Stack.Screen name="History" component={HistoryScreen} options={{ title:'Search History',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
   
     </Stack.Navigator>
   </NavigationContainer>

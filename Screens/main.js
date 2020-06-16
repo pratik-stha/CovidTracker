@@ -4,6 +4,7 @@ import {Button,Card} from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
 import {getWorldData}  from '../API/Server';
 import axios from 'axios';
+import { round } from 'react-native-reanimated';
 
 const MainScreen=({route,navigation})=>{
     //console.log(route.params);
@@ -61,8 +62,21 @@ const MainScreen=({route,navigation})=>{
         <View style={styles.container}>
           
             <Card style={styles.view1} title='Precautions'>
-            <Button title='Call' 
-                    onPress={()=>{MakeCall()}}/>
+                <Text style={{fontSize:16,alignSelf :"center"}}>KEEP a safe distance</Text>
+                <Text style={{fontSize:16,alignSelf :"center"}}>WASH hands often</Text>
+                <Text style={{fontSize:16, alignSelf :"center"}}>COVER your cough</Text>
+                <Text style={{fontSize:20, alignSelf :"center"}}>Sick ? Call ahead </Text>
+                  <View style={{alignItems:"center"}}>
+                  <TouchableOpacity title='Call' 
+                    onPress={()=>{MakeCall()}} 
+                    style={{ backgroundColor:'#10e649', width:200, height:40, borderRadius:40}}
+                    
+                    >
+                
+                </TouchableOpacity>
+                </View>
+   
+                
             </Card>
 
             <View style={styles.StatisticsButton}> 
@@ -73,14 +87,14 @@ const MainScreen=({route,navigation})=>{
         />
             </View>
             <Card style={styles.view2} title='World Statistics'>
-            <Text style={{fontSize:20}}>Confirmed Cases: {APIWorldData.confirmed}</Text>
-                  <Text style={{fontSize:20}}>Total Deaths: {APIWorldData.deaths}</Text>
-                  <Text style={{fontSize:20}}>Recovered: {APIWorldData.recovered}</Text>
+            <Text style={{fontSize:15, color:'#1090e6', alignSelf :"center"}}>Confirmed Cases: {APIWorldData.confirmed}</Text>
+                  <Text style={{fontSize:15, color:'red', alignSelf :"center"}}>Total Deaths: {APIWorldData.deaths}</Text>
+                  <Text style={{fontSize:15,color:'green', alignSelf :"center"}}>Recovered: {APIWorldData.recovered}</Text>
             </Card>
-                <Card  title={<Text style={{fontSize:25, alignSelf:'center'}}>{HomeData.title}</Text>}>
-                  <Text style={{fontSize:20}}>Confirmed Cases: {HomeData.confirmed}</Text>
-                  <Text style={{fontSize:20}}>Total Deaths: {HomeData.deaths}</Text>
-                  <Text style={{fontSize:20}}>Recovered: {HomeData.recovered}</Text>
+                <Card  title={<Text style={{fontSize:20, alignSelf:'center'}}>{HomeData.title}</Text>}>
+                  <Text style={{fontSize:15,color:'#1090e6',alignSelf :"center"}}>Confirmed Cases: {HomeData.confirmed}</Text>
+                  <Text style={{fontSize:15, alignSelf :"center", color:'red'}}>Total Deaths: {HomeData.deaths}</Text>
+                  <Text style={{fontSize:15, alignSelf :"center", color:'#07eb44'}}>Recovered: {HomeData.recovered}</Text>
             </Card>
         
             </View>
@@ -95,6 +109,8 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'pink',
         flex:1,
+        textAlign:"center",
+        
         
       },
 

@@ -28,14 +28,18 @@ export function updateSearch(item) {
 }
 
 export function deleteSearch(item) {
-  firebase.database().ref(`HistoryData/${item.id}`).remove();
+  firebase.database().ref(`SearchData/${item.id}`).remove();
+}
+
+export function deleteAll() {
+  firebase.database().ref(`SearchData/`).remove();
 }
 
 export function setupHistoryListener(updateFunc) {
     console.log('setupHistoryListener called');
     firebase
       .database()
-      .ref('HistoryData/')
+      .ref('SearchData/')
       .on('value', (snapshot) => {
         console.log('setupHistoryListener fires up with: ', snapshot);
         if (snapshot?.val()) {

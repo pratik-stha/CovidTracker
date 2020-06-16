@@ -11,6 +11,7 @@ import {countryNameList} from '../countryNameList';
 import {initSearchHistoryDB,storeSearchItem,setupDataListener } from '../Helper/fb-helper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -91,7 +92,13 @@ navigation.setOptions(
         
         headerLeft:()=>(
             <TouchableOpacity onPress={()=>navigation.navigate('Main',{StateAPICountryData,selectedCountry,Switch1Val,StateAPIdata,stateName, Switch2Val})}>
-            <AntDesign name="back" size={34} color="black" />
+            <AntDesign style={{marginLeft:15}} name="back" size={34} color="black" />
+           </TouchableOpacity>
+        ),
+
+        headerRight:()=>(
+            <TouchableOpacity onPress={()=>navigation.navigate('History')}>
+            <FontAwesome5 style={{marginRight:15}} name="history" size={24} color="black" />
            </TouchableOpacity>
         ),
 
