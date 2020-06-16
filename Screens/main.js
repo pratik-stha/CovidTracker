@@ -15,6 +15,24 @@ const MainScreen=({route,navigation})=>{
     const [WorldLoading, setWorldLoading] = useState(false);
 
     useEffect(()=>{
+        if(route.params?.Switch1Val)
+          {
+              console.log(route.params.StateAPICountryData.confirmed); 
+              //console.log(route.params.selectedCountry); 
+              setHomeData({confirmed: route.params.StateAPICountryData.confirmed, deaths: route.params.StateAPICountryData.deaths, recovered: route.params.StateAPICountryData.recovered,title: route.params.selectedCountry})
+        }
+
+        if(route.params?.Switch2Val)
+          {
+              console.log(route.params.StateAPIdata); 
+              setHomeData({confirmed: route.params.StateAPIdata.confirmed, deaths: route.params.StateAPIdata.deaths, recovered: route.params.StateAPIdata.recovered, title: route.params.StateAPIdata.name})
+        }
+        
+ },[route.params?.Switch1Val,route.params?.Switch2Val]);
+
+
+
+    useEffect(()=>{
         console.log('inside');
      
         getWorldData((data) => {
@@ -25,24 +43,7 @@ const MainScreen=({route,navigation})=>{
 
     },[]);
 
-   useEffect(()=>{
-          if(route.params?.Switch1Val)
-            {
-                console.log(route.params.StateAPICountryData.confirmed); 
-                console.log(route.params.selectedCountry); 
-                setHomeData({confirmed: route.params.StateAPICountryData.confirmed, deaths: route.params.StateAPICountryData.deaths, recovered: route.params.StateAPICountryData.recovered,title: route.params.selectedCountry})
-          }
-
-          if(route.params?.Switch2Val)
-            {
-                console.log(route.params.StateAPIdata); 
-                console.log(route.params.searchVal); 
-                setHomeData({confirmed: route.params.StateAPIdata.confirmed, deaths: route.params.StateAPIdata.death, recovered: route.params.StateAPIdata.recovered, title: route.params.searchVal})
-          }
-          
-   },[route.params]);
-
-
+ 
     MakeCall=()=>{
             let phonenumber = '';
             if(Platform.OS === 'android'){

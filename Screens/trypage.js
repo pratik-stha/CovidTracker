@@ -16,16 +16,16 @@ import { AntDesign } from '@expo/vector-icons';
 const Tab = createMaterialTopTabNavigator();
 
 const TryPage=({route,navigation})=> {
-   const [StateAPIdata,setStateAPIdata] = useState({confirmed:'',deaths:'',recovered:'' });
+   const [StateAPIdata,setStateAPIdata] = useState({confirmed:'',deaths:'',recovered:'',name:'' });
    const [StateAPICountryData,setStateAPICountryData] = useState({confirmed:'',deaths:'',recovered:'',name:'' });
    
    const [Switch1Val,setSwitch1Val] = useState(false);
     const [Switch2Val,setSwitch2Val] = useState(false);
    
-    const [stateName, setstateName] = useState('mi');
+    const [stateName, setstateName] = useState();
 
    const [countryName,setcountryName] = useState('USA');
-   const [searchVal,setsearchVal] = useState('');
+   const [searchVal,setsearchVal] = useState({label:'',abbreviation:''});
  
    const [searchState,setsearchState] = useState({isloading:true, searchList:''});
    const [countryList,setcountryList] = useState({label:''});
@@ -41,7 +41,13 @@ const TryPage=({route,navigation})=> {
 
 },[]);
 
- 
+useEffect(()=>{
+  if(searchVal){
+    getStateData(searchVal.abbreviation,(data)=>
+        setStateAPIdata({confirmed:data.positive, deaths: data.death , recovered: data.recovered,name:searchVal.label}))
+  }
+},[searchVal]);
+
    useEffect(()=>{
        
         getData(selectedCountry,(data)=>
@@ -57,24 +63,6 @@ const TryPage=({route,navigation})=> {
         }
 },[StateAPICountryData]);
 
- 
-useEffect(()=>{
-    if(check_validation(searchVal)){
-       
-        getStateData(stateName,(data) => {
-
-     setStateAPIdata({confirmed: data.positive, death: data.death, recovered: data.recovered});
-  
-
-        });}
-
- else{
-     console.log('searchval: ',searchVal);
-     setStateAPIdata({confirmed: 'INVALID', death: 'INVALID', recovered: 'INVALID'});
-
- }
-},[searchVal]);
-
 useEffect(()=>{
    if(Switch1Val){
        setSwitch2Val(false);
@@ -84,13 +72,13 @@ useEffect(()=>{
    }
 
    
-},[Switch1Val]);
+},[Switch1Val,Switch2Val]);
 
 navigation.setOptions(
     {
         
         headerLeft:()=>(
-            <TouchableOpacity onPress={()=>navigation.navigate('Main',{StateAPICountryData,selectedCountry,Switch1Val,StateAPIdata,searchVal ,Switch2Val})}>
+            <TouchableOpacity onPress={()=>navigation.navigate('Main',{StateAPICountryData,selectedCountry,Switch1Val,StateAPIdata,stateName, Switch2Val})}>
             <AntDesign name="back" size={34} color="black" />
            </TouchableOpacity>
         ),
@@ -137,21 +125,8 @@ function HomeScreen() {
     setsearchState({ searchList: filteredContacts });
   };
 
-
-  const renderFlatList = ({ item }) => (
-    <View style={{ minHeight: 70, padding: 5 }}>
-        <TouchableHighlight onPress={()=>{setsearchVal(item.name);
-                                        setstateName(item.abbreviation.toLowerCase());
-                                        setsearchState({searchList:''})
-                            }}> 
-        <Text style={{fontWeight: 'bold', fontSize: 16 }}> {item.name} </Text>
-      </TouchableHighlight>
-
-     
-    </View>
-  );
-
   
+
  function check_validation(val){
     var flag = false;
     for(let i=0;i<USstateList.length;i++){
@@ -176,26 +151,13 @@ function HomeScreen() {
     return (
       <View>
    
-        <SearchBar
-            placeholder = 'Search by State Name'
-            onChangeText={(val)=>{setsearchVal(val);searchContacts(val);   }}
-            value={searchVal}
         
-        />
-        
-        <FlatList
-        data={searchState.searchList}
-        renderItem = {renderFlatList}
-        keyExtractor={(item,index) => index.toString()}
-        
-      />
-
       
         <View>
-        <Card title={<Text style={{color:'blue'}}>{searchVal}</Text>}>
+        <Card title={<Text style={{color:'blue'}}>{searchVal.label}</Text>}>
            
         <Text style={{fontSize:20}}>Confirmed Cases: {StateAPIdata.confirmed}</Text>
-        <Text style={{fontSize:20}}>Death: {StateAPIdata.death}</Text>
+        <Text style={{fontSize:20}}>Death: {StateAPIdata.deaths}</Text>
         <Text style={{fontSize:20}}>Recovered: {StateAPIdata.recovered}</Text>
         
         <Switch
@@ -204,6 +166,18 @@ function HomeScreen() {
        
         </Card>
         </View>
+      
+        <DropDownPicker
+                    items={ USstateList}
+                    defaultNull
+                    placeholder="Select the State"
+                    containerStyle={{height: 50}}
+                    onChangeItem={item =>{setsearchVal({label:item.label, abbreviation:item.abbreviation.toLowerCase()});
+                                        setstateName(item.label);
+                                       
+                   }}
+               />
+                
       </View>
     );
   }
