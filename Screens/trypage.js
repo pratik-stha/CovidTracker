@@ -5,7 +5,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Card, SearchBar,Input } from 'react-native-elements';
 import {getStateData, getStateName} from '../API/CountyLevel';
 import {USstateList} from '../StateNameList';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableHighlight, State } from 'react-native-gesture-handler';
 import {getData,getCountries} from '../API/Server';
 import {countryNameList} from '../countryNameList';
 import {initSearchHistoryDB,storeSearchItem,setupDataListener } from '../Helper/fb-helper';
@@ -56,12 +56,14 @@ useEffect(()=>{
    },[selectedCountry]);
 
    useEffect(()=>{
-        if(StateAPICountryData.confirmed !=='' && StateAPICountryData !=='' && StateAPICountryData !== '')     {            
+        if(StateAPICountryData.confirmed !=='' && StateAPICountryData.deaths !=='' && StateAPICountryData.recovered !== '')     {            
       Object.assign(StateAPICountryData);
 
-       storeSearchItem({StateAPICountryData})
+       storeSearchItem({Confirmed:StateAPICountryData.confirmed,Recovered: StateAPICountryData.recovered,Deaths:StateAPICountryData.recovered,name:StateAPICountryData.name})
         }
 },[StateAPICountryData]);
+
+
 
 useEffect(()=>{
    if(Switch1Val){
@@ -73,6 +75,16 @@ useEffect(()=>{
 
    
 },[Switch1Val,Switch2Val]);
+
+
+useEffect(()=>{
+    if(StateAPIdata.confirmed !=='' && StateAPIdata.deaths !=='' && StateAPIdata.recovered !== '')     {            
+  Object.assign(StateAPIdata);
+
+   storeSearchItem({Confirmed:StateAPIdata.confirmed,Recovered: StateAPIdata.recovered,Deaths:StateAPIdata.recovered,name:StateAPIdata.name})
+    }
+},[StateAPIdata]);
+
 
 navigation.setOptions(
     {
