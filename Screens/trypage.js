@@ -100,13 +100,13 @@ navigation.setOptions(
         
         headerLeft:()=>(
             <TouchableOpacity onPress={()=>navigation.navigate('Main',{StateAPICountryData,selectedCountry,Switch1Val,StateAPIdata,stateName, Switch2Val})}>
-            <AntDesign style={{marginLeft:15}} name="back" size={34} color="black" />
+            <AntDesign style={{marginLeft:15}} name="back" size={39} color="#dceba0" />
            </TouchableOpacity>
         ),
 
         headerRight:()=>(
             <TouchableOpacity onPress={()=>navigation.navigate('History')}>
-            <FontAwesome5 style={{marginRight:15}} name="history" size={24} color="black" />
+            <FontAwesome5 style={{marginRight:18}} name="history" size={30} color="#dceba0" />
            </TouchableOpacity>
         ),
 

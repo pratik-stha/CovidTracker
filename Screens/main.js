@@ -11,7 +11,7 @@ const MainScreen=({route,navigation})=>{
 
 
     const [APIWorldData,setAPIWorldData] = useState({confirmed:'',deaths:'',recovered:'' });
-    const [HomeData,setHomeData] = useState({confirmed:'',deaths:'',recovered:'', title:'' });
+    const [HomeData,setHomeData] = useState({confirmed:'',deaths:'',recovered:'', title:'NO PINNED ITEMS' });
     const [WorldCountries, setWorldCountries] = useState([]);
     const [WorldLoading, setWorldLoading] = useState(false);
 
@@ -62,10 +62,10 @@ const MainScreen=({route,navigation})=>{
         <View style={styles.container}>
           <View>
             <Card style={styles.view1} title='Precautions'>
-                <Text style={{fontSize:16,alignSelf :"center"}}>KEEP a safe distance</Text>
-                <Text style={{fontSize:16,alignSelf :"center"}}>WASH hands often</Text>
-                <Text style={{fontSize:16, alignSelf :"center"}}>COVER your cough</Text>
-                <Text style={{fontSize:20, alignSelf :"center"}}>Sick ? Call ahead </Text>
+                <Text style={{fontSize:16,alignSelf :"center", color:'#1a86b8'}}>KEEP a safe distance</Text>
+                <Text style={{fontSize:16,alignSelf :"center", color:'#1a86b8'}}>WASH hands often</Text>
+                <Text style={{fontSize:16, alignSelf :"center", color:'#1a86b8'}}>COVER your cough</Text>
+                <Text style={{fontSize:20, alignSelf :"center", color:'red'}}>Sick ? Call ahead </Text>
                   <View style={{alignItems:"center"}}>
                   <TouchableOpacity title='Call' 
                     onPress={()=>{MakeCall()}} 

@@ -21,7 +21,13 @@ const HistoryScreen=({route,navigation})=>{
         {
                 headerRight:()=>(
                 <TouchableOpacity onPress={()=> deleteAll()}>
-                <AntDesign style={{marginRight:15}} name="delete" size={24} color="black" />
+                <AntDesign style={{marginRight:19}} name="delete" size={29} color="#dceba0" />
+               </TouchableOpacity>
+            ),
+
+            headerLeft:()=>(
+                <TouchableOpacity onPress={()=>navigation.navigate('Visuals')}>
+                <AntDesign style={{marginLeft:15}} name="back" size={39} color="#dceba0" />
                </TouchableOpacity>
             ),
     

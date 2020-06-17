@@ -22,14 +22,14 @@ export default function App() {
         },
         headerTintColor: 'blue',
         headerTitleStyle: {
-          color: 'yellow',
+          color: '#dceba0',
           textAlign: 'center',
           alignSelf: 'center'
         },}} />
       
-    <Stack.Screen name="Visuals" component={TryPage} options={{ title:'Statistics',headerStyle:{backgroundColor:'#3b8a88'} ,headerTitleStyle:{color:'yellow',textAlign:'center', alignSelf: 'center'}}}/>
-    <Stack.Screen name="History" component={HistoryScreen} options={{ title:'Search History',headerStyle:{backgroundColor:'#3b8a88'} ,headerTitleStyle:{color:'yellow',textAlign:'center', alignSelf: 'center'}}}/>
-    <Stack.Screen name="Maps" component={MapScreen} options={{ title:'Map View',headerStyle:{backgroundColor:'#3b8a88'} ,headerTitleStyle:{color:'yellow',textAlign:'center', alignSelf: 'center'}}}/>
+    <Stack.Screen name="Visuals" component={TryPage} options={{ title:'Statistics',headerStyle:{backgroundColor:'#3b8a88'} ,headerTitleStyle:{color:'#dceba0',textAlign:'center', alignSelf: 'center'}}}/>
+    <Stack.Screen name="History" component={HistoryScreen} options={{ title:'Search History',headerStyle:{backgroundColor:'#3b8a88'} ,headerTitleStyle:{color:'#dceba0',textAlign:'center', alignSelf: 'center'}}}/>
+    <Stack.Screen name="Maps" component={MapScreen} options={{ title:'Map View',headerStyle:{backgroundColor:'#3b8a88'} ,headerTitleStyle:{color:'#dceba0',textAlign:'center', alignSelf: 'center'}}}/>
   
     </Stack.Navigator>
   </NavigationContainer>
