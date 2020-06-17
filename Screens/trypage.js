@@ -12,17 +12,8 @@ import {initSearchHistoryDB,storeSearchItem,setupDataListener } from '../Helper/
 import DropDownPicker from 'react-native-dropdown-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-import MapView,{Marker} from 'react-native-maps';
 
-var markers = [
-    {
-      latitude: 45.65,
-      longitude: -78.90,
-      title: 'Foo Place',
-      subtitle: '1234 Foo Drive'
-    }
-  ];
-  
+
   
 const Tab = createMaterialTopTabNavigator();
 
@@ -125,15 +116,19 @@ navigation.setOptions(
 
 function HomeScreen() {
     return (
-      <View >
+      <View style={styles.container}>
              <Card title= {<Text>{selectedCountry} </Text>}>
-            <Text style={{fontSize:20}}>Confirmed Cases: {StateAPICountryData.confirmed}</Text>
-                  <Text style={{fontSize:20}}>Total Deaths: {StateAPICountryData.deaths}</Text>
-                  <Text style={{fontSize:20}}>Recovered: {StateAPICountryData.recovered}</Text>
-                 
-                  <Switch
+            <Text style={{fontSize:20, color:'blue'}}>Confirmed Cases: {StateAPICountryData.confirmed}</Text>
+                  <Text style={{fontSize:20, color:'red'}}>Total Deaths: {StateAPICountryData.deaths}</Text>
+                  <Text style={{fontSize:20, color:'#0df005'}}>Recovered: {StateAPICountryData.recovered}</Text>
+                 <View style={{flexDirection:"row"}}>
+                   <Text style={{marginTop:10, fontSize:15, color:'#7d9396'}}>Pin to Home Screen</Text>
+                   <Switch
+                   style={{marginLeft:105, marginTop:7}}
                         onValueChange = {(val)=>setSwitch1Val(val)}
                         value = {Switch1Val}/>
+                 </View>
+                  
             </Card>
          <DropDownPicker
                     items={countryNameList}
@@ -149,24 +144,13 @@ function HomeScreen() {
     );
   }
 
- 
-  const searchContacts = value => {
-    const filteredContacts = USstateList.filter(contact => {
-      let contactLowercase = (contact.name).toLowerCase();
-
-      let searchTermLowercase = value.toLowerCase();
-
-      return contactLowercase.indexOf(searchTermLowercase) > -1;
-    });
-    setsearchState({ searchList: filteredContacts });
-  };
 
  
  //   console.log("The statename is: ",stateName);
   function SettingsScreen() {
 
     return (
-      <View>
+      <View style={styles.container}>
    
         
       
@@ -196,15 +180,7 @@ function HomeScreen() {
                />
                 <View style={styles.container}>
 
-                    <MapView style={styles.mapStyle}
                    
-                     
-                    >
-                       <Marker coordinate = {{latitude: 37.78825,longitude: -122.4324}}
-         pinColor = {"purple"} // any color
-         title={"CA"}
-                description={''}/>    
-                    </MapView>
 
                     </View>
       </View>
@@ -216,8 +192,21 @@ function HomeScreen() {
   
   return (
 
-      <Tab.Navigator>
-        <Tab.Screen name="World" component={HomeScreen} />
+      <Tab.Navigator tabBarOptions={{
+        activeTintColor: '#FFFFFF',
+        inactiveTintColor: '#F8F8F8',
+        style: {
+          backgroundColor: '#3b8a88',
+        },
+        labelStyle: {
+          textAlign: 'center',
+        },
+        indicatorStyle: {
+          borderBottomColor: '#e6f238',
+          borderBottomWidth: 2,
+        },
+      }}>
+        <Tab.Screen name="World" component={HomeScreen}  />
         <Tab.Screen name="USA" component={SettingsScreen} />
       </Tab.Navigator>
 
@@ -225,10 +214,12 @@ function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      
-    },
+  container: {
+    backgroundColor: '#87c4cc',
+    flex:1,
+    textAlign:"center",
+    
+  },
     mapStyle: {
       width: Dimensions.get('window').width,
       height: Dimensions.get('window').height,

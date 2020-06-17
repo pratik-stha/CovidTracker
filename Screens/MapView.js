@@ -18,19 +18,19 @@ import {Mapdata} from '../MapDatas';
   {"location": "Goa", 
  "country_code": "in", "latitude": 15.2993265, "longitude": 74.12399599999999, "confirmed": 629, "dead": 0, "recovered": 85,
   "updated": "2020-06-17 21:18:49.555017+00:00"}]
- 
+
+
  
 const MapScreen=({route,navigation})=>{
   
 const [mapval,setmapval] = useState();  
 
-/* useEffect(()=>{
+ useEffect(()=>{
 
-        getMapData((dat)=>setmapval(dat));
+        getMapData((dat)=>setmapval(dat.data));
 
 },[])
-   */  
-
+ 
 const MapMarkers = () => {
     
     

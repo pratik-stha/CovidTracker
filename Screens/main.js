@@ -48,10 +48,10 @@ const MainScreen=({route,navigation})=>{
     MakeCall=()=>{
             let phonenumber = '';
             if(Platform.OS === 'android'){
-                phonenumber = `tel:${6165709312}`;
+                phonenumber = `tel:${6167065373}`;
             }
             else{
-                phonenumber = `telprompt:${6165709312}`
+                phonenumber = `telprompt:${6167065373}`
             }
 
             Linking.openURL(phonenumber);
@@ -105,12 +105,12 @@ const MainScreen=({route,navigation})=>{
             <Card style={styles.view2} title='World Statistics'>
             <Text style={{fontSize:15, color:'#1090e6', alignSelf :"center"}}>Confirmed Cases: {APIWorldData.confirmed}</Text>
                   <Text style={{fontSize:15, color:'red', alignSelf :"center"}}>Total Deaths: {APIWorldData.deaths}</Text>
-                  <Text style={{fontSize:15,color:'green', alignSelf :"center"}}>Recovered: {APIWorldData.recovered}</Text>
+                  <Text style={{fontSize:15,color:'#0df005', alignSelf :"center"}}>Recovered: {APIWorldData.recovered}</Text>
             </Card>
                 <Card  title={<Text style={{fontSize:20, alignSelf:'center'}}>{HomeData.title}</Text>}>
                   <Text style={{fontSize:15,color:'#1090e6',alignSelf :"center"}}>Confirmed Cases: {HomeData.confirmed}</Text>
                   <Text style={{fontSize:15, alignSelf :"center", color:'red'}}>Total Deaths: {HomeData.deaths}</Text>
-                  <Text style={{fontSize:15, alignSelf :"center", color:'#07eb44'}}>Recovered: {HomeData.recovered}</Text>
+                  <Text style={{fontSize:15, alignSelf :"center", color:'#0df005'}}>Recovered: {HomeData.recovered}</Text>
             </Card>
             </View>
             </View>
@@ -123,7 +123,7 @@ const MainScreen=({route,navigation})=>{
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'pink',
+        backgroundColor: '#87c4cc',
         flex:1,
         textAlign:"center",
         

@@ -17,20 +17,19 @@ export default function App() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <NavigationContainer>
     <Stack.Navigator>
-    <Stack.Screen name="Main" component={MainScreen} options={{          title: 'Home',
-        headerStyle: {
-          backgroundColor: '#f4511e',
+    <Stack.Screen name="Main" component={MainScreen} options={{  title: 'Home', headerStyle: {
+          backgroundColor: '#3b8a88',
         },
-        headerTintColor: '#fff',
+        headerTintColor: 'blue',
         headerTitleStyle: {
-          color: 'blue',
+          color: 'yellow',
           textAlign: 'center',
           alignSelf: 'center'
         },}} />
       
-    <Stack.Screen name="Visuals" component={TryPage} options={{ title:'Statistics',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
-    <Stack.Screen name="History" component={HistoryScreen} options={{ title:'Search History',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
-    <Stack.Screen name="Maps" component={MapScreen} options={{ title:'Map View',headerStyle:{backgroundColor:'yellow'} ,headerTitleStyle:{color:'green',textAlign:'center', alignSelf: 'center'}}}/>
+    <Stack.Screen name="Visuals" component={TryPage} options={{ title:'Statistics',headerStyle:{backgroundColor:'#3b8a88'} ,headerTitleStyle:{color:'yellow',textAlign:'center', alignSelf: 'center'}}}/>
+    <Stack.Screen name="History" component={HistoryScreen} options={{ title:'Search History',headerStyle:{backgroundColor:'#3b8a88'} ,headerTitleStyle:{color:'yellow',textAlign:'center', alignSelf: 'center'}}}/>
+    <Stack.Screen name="Maps" component={MapScreen} options={{ title:'Map View',headerStyle:{backgroundColor:'#3b8a88'} ,headerTitleStyle:{color:'yellow',textAlign:'center', alignSelf: 'center'}}}/>
   
     </Stack.Navigator>
   </NavigationContainer>
@@ -47,7 +46,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
   },
