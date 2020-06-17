@@ -60,7 +60,7 @@ const MainScreen=({route,navigation})=>{
 
     return (
         <View style={styles.container}>
-          
+          <View>
             <Card style={styles.view1} title='Precautions'>
                 <Text style={{fontSize:16,alignSelf :"center"}}>KEEP a safe distance</Text>
                 <Text style={{fontSize:16,alignSelf :"center"}}>WASH hands often</Text>
@@ -77,14 +77,31 @@ const MainScreen=({route,navigation})=>{
    
                 
             </Card>
-
-            <View style={styles.StatisticsButton}> 
-           
-          <Button
-          title="Statistics"
-          onPress={()=>navigation.navigate('Visuals')}
-        />
             </View>
+            <View style={styles.StatisticsButton}> 
+
+        <View style={{flexDirection:"row", flex:1, justifyContent:"space-around"}}>   
+        
+                  <TouchableOpacity title='Statistics' 
+                    onPress={()=>{navigation.navigate('Visuals')}} 
+                    style={{ backgroundColor:'#07a0a8', width:150, height:40, borderRadius:40}}
+                  >
+                      <Text style={{alignSelf:"center", marginTop:6, fontSize:18, color:'yellow'}}>Statistics</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity title='Maps' 
+                    onPress={()=>{navigation.navigate('Maps')}} 
+                    style={{ backgroundColor:'#07a0a8', width:150, height:40, borderRadius:40}}
+                  >
+                      
+            <Text style={{alignSelf:"center", marginTop:6, fontSize:18, color:'yellow'}}>Map View</Text>
+            </TouchableOpacity>
+                </View>
+          
+
+            </View>
+
+            <View style={{marginTop:35}}>
             <Card style={styles.view2} title='World Statistics'>
             <Text style={{fontSize:15, color:'#1090e6', alignSelf :"center"}}>Confirmed Cases: {APIWorldData.confirmed}</Text>
                   <Text style={{fontSize:15, color:'red', alignSelf :"center"}}>Total Deaths: {APIWorldData.deaths}</Text>
@@ -95,7 +112,7 @@ const MainScreen=({route,navigation})=>{
                   <Text style={{fontSize:15, alignSelf :"center", color:'red'}}>Total Deaths: {HomeData.deaths}</Text>
                   <Text style={{fontSize:15, alignSelf :"center", color:'#07eb44'}}>Recovered: {HomeData.recovered}</Text>
             </Card>
-        
+            </View>
             </View>
 
 
