@@ -6,34 +6,44 @@ import {getWorldData}  from '../API/Server';
 import axios from 'axios';
 import { round } from 'react-native-reanimated';
 import MapView, {Marker} from 'react-native-maps';
+import {getMapData} from '../API/MapServer';
+import {Mapdata} from '../MapDatas';
 
-const data = [{"location": "Rhode Island", "country_code": "us", "latitude": 41.5800945, "longitude": -71.4774291, "confirmed": 15947, "dead": 509, "recovered": null, "updated": "2020-06-16 03:30:37.087474+00:00"},
-                {"location": "Northwest Territories", "country_code": "ca", "latitude": 64.8255441, "longitude": -124.8457334, "confirmed": 5, "dead": 0, "recovered": null, "updated": "2020-06-15 00:00:00+00:00"}];
 
+
+ const Mapdata1 = [{"location": "Montana", "country_code": "us", "latitude": 46.8796822, "longitude": -110.3625658, "confirmed": 624, "dead": 19,
+ "recovered": null, "updated": "2020-06-17 21:15:31.317274+00:00"}, 
+ {"location": "Rhode Island", "country_code": "us", "latitude": 41.5800945, 
+ "longitude": -71.4774291, "confirmed": 16164, "dead": 509, "recovered": null, "updated": "2020-06-17 21:15:31.317274+00:00"},
+  {"location": "Goa", 
+ "country_code": "in", "latitude": 15.2993265, "longitude": 74.12399599999999, "confirmed": 629, "dead": 0, "recovered": 85,
+  "updated": "2020-06-17 21:18:49.555017+00:00"}]
+ 
+ 
 const MapScreen=({route,navigation})=>{
+  
+const [mapval,setmapval] = useState();  
 
-console.log(data);
+/* useEffect(()=>{
+
+        getMapData((dat)=>setmapval(dat));
+
+},[])
+   */  
 
 const MapMarkers = () => {
     
-    return data.map((report) => (
-        <Marker coordinate = {{latitude: report.latitude,longitude: report.longitude}}
+    
+     return Mapdata.map((report) => (
+        <Marker coordinate = {{latitude: report.latitude, longitude: report.longitude}}
         pinColor = {"purple"} // any color
-        title={"CA"}
-               description={`${report.confirmed}`}/>
+        title={report.location}
+         description={`cases: ${report.confirmed}`}/>
 
-    ))
+    )) 
   }
 
-/* const MapMarkers = () => {
-    return data.map((report) => <Marker
-    pinColor={"purple"} 
-    coordinate={{ latitude: report.latitude, longitude: report.longitude }}
-      title={report.location}
-      description={''}
-    >
-    </Marker >)
-  } */
+
 return(
     <View style={styles.container}>
 
@@ -41,7 +51,7 @@ return(
 		
     <MapView style={styles.mapStyle} >
     <View>
-  <MapMarkers/>
+<MapMarkers/>
   </View>
     </MapView>
 
