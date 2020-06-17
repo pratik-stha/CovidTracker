@@ -33,30 +33,47 @@ const HistoryScreen=({route,navigation})=>{
         console.log("The output is: ",item);
         return (
 
-            <TouchableHighlight style={{borderRadius:25}} underlayColor='#28b0ed'>
-                   <View style={styles.item}>
-        <Text style={{fontSize:20, textAlign:'center'}}> {item.name}</Text>
-                   <Text style={{ fontSize:15}}> Confirmed:{item.Confirmed}</Text>
-                    <Text style={{fontSize:15}}> Deaths:{item.Deaths}</Text>
-                    <Text style={{fontSize:15}}> Recovered: {item.Recovered}</Text>
+            <TouchableHighlight style={styles.item} underlayColor='#28b0ed'>
+                   <View style={{alignSelf:"center"}}>
+        <Text style={{fontSize:20, textAlign:'center', color:'yellow'}}> {item.name}</Text>
+                   <Text style={{ fontSize:15, color:'white'}}> Confirmed:{item.Confirmed}</Text>
+                    <Text style={{fontSize:15, color:'white'}}> Deaths:{item.Deaths}</Text>
+                    <Text style={{fontSize:15, color:'white'}}> Recovered: {item.Recovered}</Text>
                     </View>
             </TouchableHighlight>
         )
         }
 
     return(
-<SafeAreaView >
+<SafeAreaView style={styles.container}>
+    
            <FlatList
             data={DataArr}
             renderItem={Item}
             keyExtractor={item =>item.id}
                 />
+
  </SafeAreaView>
 )};
 
 
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#87c4cc',
+        flex:1,
+        textAlign:"center",
+        
+      },
+      
+    item: {
+        backgroundColor: '#3084ab',
+        padding: 5,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        borderRadius: 25,
+      },
+});
 
 export default HistoryScreen;
 
