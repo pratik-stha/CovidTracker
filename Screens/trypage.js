@@ -117,7 +117,7 @@ navigation.setOptions(
 function HomeScreen() {
     return (
       <View style={styles.container}>
-             <Card title= {<Text>{selectedCountry} </Text>}>
+             <Card title= {<Text style={{ color:'#32a69a', fontSize:25, alignSelf:"center", textDecorationLine:"underline"}}>{selectedCountry} </Text>}>
             <Text style={{fontSize:20, color:'blue'}}>Confirmed Cases: {StateAPICountryData.confirmed}</Text>
                   <Text style={{fontSize:20, color:'red'}}>Total Deaths: {StateAPICountryData.deaths}</Text>
                   <Text style={{fontSize:20, color:'#0df005'}}>Recovered: {StateAPICountryData.recovered}</Text>
@@ -155,15 +155,18 @@ function HomeScreen() {
         
       
         <View>
-        <Card title={<Text style={{color:'blue'}}>{searchVal.label}</Text>}>
+        <Card title={<Text style={{color:'#32a69a', fontSize:25, alignSelf:"center", textDecorationLine:"underline"}}>{searchVal.label}</Text>}>
            
-        <Text style={{fontSize:20}}>Confirmed Cases: {StateAPIdata.confirmed}</Text>
-        <Text style={{fontSize:20}}>Death: {StateAPIdata.deaths}</Text>
-        <Text style={{fontSize:20}}>Recovered: {StateAPIdata.recovered}</Text>
-        
+        <Text style={{fontSize:20, color:'blue'}}>Confirmed Cases: {StateAPIdata.confirmed}</Text>
+        <Text style={{fontSize:20,color:'red'}}>Death: {StateAPIdata.deaths}</Text>
+        <Text style={{fontSize:20, color:'#0df005'}}>Recovered: {StateAPIdata.recovered}</Text>
+        <View style={{flexDirection:"row"}}>
+        <Text style={{marginTop:10, fontSize:15, color:'#7d9396'}}>Pin to Home Screen</Text>
         <Switch
+            style={{marginLeft:105, marginTop:7}}
             onValueChange = {(val)=>setSwitch2Val(val)}
             value = {Switch2Val}/>
+            </View>
        
         </Card>
         </View>
