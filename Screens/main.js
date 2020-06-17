@@ -70,9 +70,8 @@ const MainScreen=({route,navigation})=>{
                   <TouchableOpacity title='Call' 
                     onPress={()=>{MakeCall()}} 
                     style={{ backgroundColor:'#10e649', width:200, height:40, borderRadius:40}}
-                    
-                    >
-                
+                  >
+                      <Feather style={{alignSelf:"center", marginTop:7}} name="phone-call" size={28} color="white" />
                 </TouchableOpacity>
                 </View>
    

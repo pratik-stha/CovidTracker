@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Text, View, FlatList, TextInput,Switch,TouchableOpacity, Button} from 'react-native';
+import { Text, View, FlatList,StyleSheet,Dimensions, TextInput,Switch,TouchableOpacity, Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Card, SearchBar,Input } from 'react-native-elements';
@@ -12,11 +12,21 @@ import {initSearchHistoryDB,storeSearchItem,setupDataListener } from '../Helper/
 import DropDownPicker from 'react-native-dropdown-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import MapView,{Marker} from 'react-native-maps';
 
-
+var markers = [
+    {
+      latitude: 45.65,
+      longitude: -78.90,
+      title: 'Foo Place',
+      subtitle: '1234 Foo Drive'
+    }
+  ];
+  
+  
 const Tab = createMaterialTopTabNavigator();
 
-const TryPage=({route,navigation})=> {
+const VisualScreen=({route,navigation})=> {
    const [StateAPIdata,setStateAPIdata] = useState({confirmed:'',deaths:'',recovered:'',name:'' });
    const [StateAPICountryData,setStateAPICountryData] = useState({confirmed:'',deaths:'',recovered:'',name:'' });
    
@@ -70,14 +80,21 @@ useEffect(()=>{
    if(Switch1Val){
        setSwitch2Val(false);
    }
-   if(Switch2Val){
-       setSwitch1Val(false);
-   }
-
-   
-},[Switch1Val,Switch2Val]);
+    
+},[Switch1Val]);
 
 
+useEffect(()=>{
+
+    if(Switch2Val){
+        setSwitch1Val(false);
+    }
+ 
+    
+ },[Switch2Val]);
+ 
+
+ 
 useEffect(()=>{
     if(StateAPIdata.confirmed !=='' && StateAPIdata.deaths !=='' && StateAPIdata.recovered !== '')     {            
   Object.assign(StateAPIdata);
@@ -144,26 +161,7 @@ function HomeScreen() {
     setsearchState({ searchList: filteredContacts });
   };
 
-  
-
- function check_validation(val){
-    var flag = false;
-    for(let i=0;i<USstateList.length;i++){
-            if(USstateList[i].name === val)
-             {
-                 console.log(USstateList[i]);
-                 flag = true;
-                 break;
-          
-             }
-             else{
-                 flag = false;
-             }
- }
-  return flag;
- };
-
-
+ 
  //   console.log("The statename is: ",stateName);
   function SettingsScreen() {
 
@@ -192,12 +190,26 @@ function HomeScreen() {
                     placeholder="Select the State"
                     containerStyle={{height: 50}}
                     onChangeItem={item =>{setsearchVal({label:item.label, abbreviation:item.abbreviation.toLowerCase()});
-                                        setstateName(item.label);
+                                         setstateName(item.label);
                                        
                    }}
                />
-                
+                <View style={styles.container}>
+
+                    <MapView style={styles.mapStyle}
+                   
+                     
+                    >
+                       <Marker coordinate = {{latitude: 37.78825,longitude: -122.4324}}
+         pinColor = {"purple"} // any color
+         title={"CA"}
+                description={''}/>    
+                    </MapView>
+
+                    </View>
       </View>
+
+      
     );
   }
 
@@ -212,4 +224,16 @@ function HomeScreen() {
   );
 }
 
-export default TryPage;
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      
+    },
+    mapStyle: {
+      width: Dimensions.get('window').width,
+      height: Dimensions.get('window').height,
+    },
+  });
+  
+
+export default VisualScreen;
